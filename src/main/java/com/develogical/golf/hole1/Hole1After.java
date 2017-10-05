@@ -5,29 +5,27 @@ import com.develogical.golf.MoveInstruction;
 import com.develogical.golf.TurnInstruction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Hole1After {
-
     private List<Instruction> instructions = new ArrayList<Instruction>();
-
-    public void parseCommand(String command) {
-
+    public List<Instruction> parseCommand(String command) {
         String[] parts = command.split(" ");
         String direction = parts[0];
-        String amount = parts[1];
-
-        if (direction.equals("foward")) {
-            instructions.add(new MoveInstruction(Integer.parseInt(amount)));
-        }
-        if (direction.equals("left")) {
-            instructions.add(new TurnInstruction(Integer.parseInt(amount)));
-        }
-        if (direction.equals("right")) {
-            instructions.add(new TurnInstruction(-1 * Integer.parseInt(amount)));
-        }
-
+        int amount = Integer.parseInt(parts[1]);
+        return parseDirection(instructions, amount, direction);
     }
 
+    private List<Instruction> parseDirection(List<Instruction> instructions, int amount, String direction) {
+        instructions.add(parseInstruction(amount, direction));
+        return instructions;
+    }
+
+    private Instruction parseInstruction(int amount, String direction) {
+        Instruction[] instructions = {new MoveInstruction(amount), new TurnInstruction(amount), new TurnInstruction(-1 * amount)};
+        String[] directions = {"forward", "left", "right"};
+        return instructions[Arrays.binarySearch(directions, direction)];
+    }
 }
 
