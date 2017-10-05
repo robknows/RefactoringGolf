@@ -15,16 +15,16 @@ public class Hole1After {
 
         String[] parts = command.split(" ");
         String direction = parts[0];
-        int amount = Integer.parseInt(parts[1]);
+        String amount = parts[1];
 
         if (direction.equals("foward")) {
-            instructions.add(new MoveInstruction(amount));
+            instructions.add(new MoveInstruction(Integer.parseInt(amount)));
         }
         if (direction.equals("left")) {
-            instructions.add(new TurnInstruction(amount));
+            instructions.add(new TurnInstruction(Integer.parseInt(amount)));
         }
         if (direction.equals("right")) {
-            instructions.add(new TurnInstruction(-1 * amount));
+            instructions.add(new TurnInstruction(-1 * Integer.parseInt(amount)));
         }
 
     }

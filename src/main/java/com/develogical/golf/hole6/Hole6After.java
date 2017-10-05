@@ -4,13 +4,36 @@ import java.util.Iterator;
 
 public class Hole6After {
 
-    public class NumberSequence {
+    class FibonacciSequence extends NumberSequence {
 
-        private final TermGenerator termGenerator;
-
-        public NumberSequence(TermGenerator generator) {
-            this.termGenerator = generator;
+        @Override
+        public int term(int n) {
+            if (n < 0) {
+                throw new IllegalArgumentException("Sequence undefined for negative index");
+            }
+            if (n < 2) {
+                return 1;
+            }
+            return term(n - 2) + term(n - 1);
         }
+
+    }
+
+    class TriangularNumberSequence extends NumberSequence {
+
+        @Override
+        public int term(int n) {
+            if (n < 0) {
+                throw new IllegalArgumentException("Sequence undefined for negative index");
+            }
+            return (n + 2) * (n + 1) / 2;
+        }
+
+    }
+
+    public abstract static class NumberSequence {
+
+        public abstract int term(int n);
 
         public Iterator<Integer> iterator() {
             return new Iterator<Integer>() {
@@ -22,7 +45,7 @@ public class Hole6After {
                 }
 
                 public Integer next() {
-                    int result = termGenerator.term(currentIndex);
+                    int result = term(currentIndex);
                     currentIndex++;
                     return result;
                 }
@@ -32,43 +55,10 @@ public class Hole6After {
                 }
             };
         }
-
-        public int term(int n) {
-            return termGenerator.term(n);
-        }
-    }
-
-    public interface TermGenerator {
-
-        public abstract int term(int n);
-
-    }
-
-    class TriangularTerm implements TermGenerator {
-        @Override
-        public int term(int n) {
-            if (n < 0) {
-                throw new IllegalArgumentException("Sequence undefined for negative index");
-            }
-            return (n + 2) * (n + 1) / 2;
-        }
-    }
-
-    class FibonacciTerm implements TermGenerator {
-        @Override
-        public int term(int n) {
-            if (n < 0) {
-                throw new IllegalArgumentException("Sequence undefined for negative index");
-            }
-            if (n < 2) {
-                return 1;
-            }
-            return term(n - 2) + term(n - 1);
-        }
     }
 
     public void generate() {
-        new NumberSequence(new FibonacciTerm()).term(3);
-        new NumberSequence(new TriangularTerm()).term(3);
+        new FibonacciSequence().term(3);
+        new TriangularNumberSequence().term(3);
     }
 }

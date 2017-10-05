@@ -17,18 +17,16 @@ public class Hole2After {
         String direction = parts[0];
         int amount = Integer.parseInt(parts[1]);
 
-        Instruction instruction = null;
         if (direction.equals("foward")) {
-            instruction = new MoveInstruction(amount);
+            instructions.add(new MoveInstruction(amount));
         }
         if (direction.equals("left")) {
-            instruction = new TurnInstruction(amount);
+            instructions.add(new TurnInstruction(amount));
         }
         if (direction.equals("right")) {
-            instruction = new TurnInstruction(-1 * amount);
+            instructions.add(new TurnInstruction(-1 * amount));
         }
 
-        instructions.add(instruction);
     }
 
 }
